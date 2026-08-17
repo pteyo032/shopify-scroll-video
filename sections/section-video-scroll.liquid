@@ -1,0 +1,381 @@
+<script
+  src="{{ 'video-scroll.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% liquid
+  assign has_video = false
+  if section.settings.video_url != blank
+    assign has_video = true
+  endif
+
+  assign has_mobile_images = false
+  if section.settings.mobile_image_1 != blank or section.settings.mobile_image_2 != blank or section.settings.mobile_image_3 != blank
+    assign has_mobile_images = true
+  endif
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
+<div
+  class="section section--full-width video-scroll spacing-style{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --video-scroll-accent: {{ section.settings.accent_color }};
+    --video-scroll-scroll-distance: {{ section.settings.scroll_distance }};
+  "
+  {% if request.visual_preview_mode %}
+    data-shopify-visual-preview
+  {% endif %}
+>
+  {% if section.settings.heading != blank %}
+    <h2
+      class="video-scroll__heading h2"
+      style="
+        {%- if section.settings.heading_font_size != blank -%}
+          font-size: {{ section.settings.heading_font_size }};
+        {%- endif -%}
+        {%- if section.settings.heading_color != blank -%}
+          color: {{ section.settings.heading_color }};
+        {%- endif -%}
+      "
+    >{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  {% if has_video %}
+    <video-scroll-component class="video-scroll__desktop hidden--mobile">
+      <div class="video-scroll-spacer" ref="spacer">
+        <div class="video-scroll-pin" ref="pin">
+          <video
+            ref="video"
+            class="video-scroll__video"
+            muted
+            playsinline
+            loop
+            {% if section.settings.poster_image != blank %}
+              poster="{{ section.settings.poster_image | image_url: width: 1920 }}"
+            {% endif %}
+            data-video-src="{{ section.settings.video_url }}"
+          ></video>
+
+          {% content_for 'blocks' %}
+        </div>
+      </div>
+    </video-scroll-component>
+  {% else %}
+    <div class="video-scroll-placeholder hidden--mobile">
+      <p class="video-scroll-placeholder__text">{{ 'content.video_scroll_missing_video' | t }}</p>
+    </div>
+  {% endif %}
+
+  {% if has_mobile_images %}
+    <div class="video-scroll-mobile-images hidden--desktop">
+      {% unless section.settings.mobile_image_1 == blank %}
+        {{
+          section.settings.mobile_image_1
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', class: 'video-scroll-mobile-images__image'
+        }}
+      {% endunless %}
+      {% unless section.settings.mobile_image_2 == blank %}
+        {{
+          section.settings.mobile_image_2
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', class: 'video-scroll-mobile-images__image'
+        }}
+      {% endunless %}
+      {% unless section.settings.mobile_image_3 == blank %}
+        {{
+          section.settings.mobile_image_3
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', class: 'video-scroll-mobile-images__image'
+        }}
+      {% endunless %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .video-scroll__heading {
+    text-align: center;
+    padding-block-end: var(--padding-lg);
+  }
+
+  /* Desktop scrubber */
+  video-scroll-component {
+    display: block;
+  }
+
+  .video-scroll-spacer {
+    position: relative;
+    height: calc(var(--video-scroll-scroll-distance, 300) * 1vh);
+  }
+
+  .video-scroll-pin {
+    position: sticky;
+    top: var(--header-height, 0px);
+    height: calc(100svh - var(--header-height, 0px));
+    overflow: hidden;
+    background: var(--color-black, #000);
+  }
+
+  .video-scroll__video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .video-scroll-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100svh;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-8));
+    border: 1px dashed rgb(var(--color-foreground-rgb) / var(--opacity-30));
+  }
+
+  .video-scroll-placeholder__text {
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+
+  /* Tooltips */
+  /* The circle marks an exact point on the video and must stay fixed there
+     regardless of grow direction — only the line + text should extend from
+     it. So the box is anchored by its own left edge (where the circle sits
+     in the default "grows right" order), only centered vertically. */
+  .video-scroll-tooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-3xs);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+    color: var(--video-scroll-accent, #ffffff);
+    transform: translateY(-50%);
+  }
+
+  .video-scroll-tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .video-scroll-tooltip__circle {
+    position: relative;
+    width: calc(var(--tooltip-thickness, 1px) * 12);
+    height: calc(var(--tooltip-thickness, 1px) * 12);
+    flex-shrink: 0;
+  }
+
+  .video-scroll-tooltip__circle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: currentColor;
+    transform: scale(0.4);
+  }
+
+  .video-scroll-tooltip__circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: var(--tooltip-thickness, 1px) solid currentColor;
+    /* Incomplete arc: mask out a quarter of the ring */
+    mask-image: conic-gradient(#000 0deg 270deg, transparent 270deg 360deg);
+    -webkit-mask-image: conic-gradient(#000 0deg 270deg, transparent 270deg 360deg);
+  }
+
+  .video-scroll-tooltip__line {
+    height: var(--tooltip-thickness, 1px);
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .video-scroll-tooltip__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-3xs);
+    white-space: nowrap;
+  }
+
+  .video-scroll-tooltip__headline {
+    font-weight: 600;
+  }
+
+  .video-scroll-tooltip__description {
+    opacity: var(--opacity-subdued-text);
+    font-size: 0.85em;
+  }
+
+  .video-scroll-tooltip--grows-left {
+    flex-direction: row-reverse;
+    /* Circle is now the rightmost child — shift the whole box left by its
+       own width so the circle (not the box's left edge) lands on the anchor point. */
+    transform: translate(-100%, -50%);
+  }
+
+  .video-scroll-tooltip--grows-left .video-scroll-tooltip__content {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  /* Mobile stacked images */
+  .video-scroll-mobile-images {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs);
+  }
+
+  .video-scroll-mobile-images__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.video_scroll",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "", "label": "t:options.default" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "1rem", "label": "16px" },
+        { "value": "1.125rem", "label": "18px" },
+        { "value": "1.25rem", "label": "20px" },
+        { "value": "1.5rem", "label": "24px" },
+        { "value": "2rem", "label": "32px" },
+        { "value": "2.5rem", "label": "40px" },
+        { "value": "3rem", "label": "48px" },
+        { "value": "3.5rem", "label": "56px" },
+        { "value": "4.5rem", "label": "72px" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.video"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "t:settings.video_url",
+      "info": "t:info.video_url"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "t:settings.poster_image",
+      "info": "t:info.poster_image"
+    },
+    {
+      "type": "range",
+      "id": "scroll_distance",
+      "label": "t:settings.scroll_distance",
+      "min": 200,
+      "max": 500,
+      "step": 50,
+      "unit": "%",
+      "default": 300
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "t:settings.accent_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "t:content.mobile_images"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image_1",
+      "label": "t:settings.mobile_image_1"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image_2",
+      "label": "t:settings.mobile_image_2"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image_3",
+      "label": "t:settings.mobile_image_3"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:content.video_scroll_tooltip_limit"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video-scroll-tooltip"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.video_scroll",
+      "category": "t:categories.storytelling"
+    }
+  ]
+}
+{% endschema %}

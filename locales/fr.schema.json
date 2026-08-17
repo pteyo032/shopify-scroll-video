@@ -1,0 +1,36 @@
+{
+  "names": {
+    "video_scroll": "Vidéo au scroll",
+    "video_scroll_tooltip": "Infobulle"
+  },
+  "content": {
+    "video": "Vidéo",
+    "video_scroll_tooltip_limit": "Ajoute jusqu'à 3 blocks infobulle ci-dessous pour mettre en avant des caractéristiques du produit.",
+    "mobile_images": "Images mobile",
+    "position": "Position",
+    "timing": "Minutage"
+  },
+  "info": {
+    "video_url": "Collez l'URL directe du fichier depuis Shopify Files (Settings > Files) — pas une vidéo ajoutée via le sélecteur vidéo, qui est ré-encodée",
+    "poster_image": "Affichée pendant le chargement de la vidéo, sur desktop uniquement",
+    "tooltip_timing": "Utilisez des décimales pour un minutage précis, ex. 1.5"
+  },
+  "settings": {
+    "video_url": "URL de la vidéo",
+    "poster_image": "Image poster",
+    "scroll_distance": "Distance de scroll",
+    "accent_color": "Couleur d'accent",
+    "mobile_image_1": "Image mobile 1",
+    "mobile_image_2": "Image mobile 2",
+    "mobile_image_3": "Image mobile 3",
+    "position_x": "Position horizontale",
+    "position_y": "Position verticale",
+    "grow_direction": "S'étend vers",
+    "line_length": "Longueur de la ligne",
+    "line_thickness": "Épaisseur de la ligne",
+    "start_time": "Temps de début",
+    "end_time": "Temps de fin",
+    "headline": "Titre",
+    "description": "Description"
+  }
+}

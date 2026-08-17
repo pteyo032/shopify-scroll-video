@@ -1,0 +1,36 @@
+{
+  "names": {
+    "video_scroll": "Video Scroll",
+    "video_scroll_tooltip": "Tooltip"
+  },
+  "content": {
+    "video": "Video",
+    "video_scroll_tooltip_limit": "Add up to 3 tooltip blocks below to highlight product features.",
+    "mobile_images": "Mobile images",
+    "position": "Position",
+    "timing": "Timing"
+  },
+  "info": {
+    "video_url": "Paste the direct file URL from Shopify Files (Settings > Files) — not a video uploaded through the video picker, which gets re-encoded",
+    "poster_image": "Shown while the video loads, on desktop only",
+    "tooltip_timing": "Use decimals for precise timing, e.g. 1.5"
+  },
+  "settings": {
+    "video_url": "Video URL",
+    "poster_image": "Poster image",
+    "scroll_distance": "Scroll distance",
+    "accent_color": "Accent color",
+    "mobile_image_1": "Mobile image 1",
+    "mobile_image_2": "Mobile image 2",
+    "mobile_image_3": "Mobile image 3",
+    "position_x": "Horizontal position",
+    "position_y": "Vertical position",
+    "grow_direction": "Grows toward",
+    "line_length": "Line length",
+    "line_thickness": "Line thickness",
+    "start_time": "Start time",
+    "end_time": "End time",
+    "headline": "Headline",
+    "description": "Description"
+  }
+}
