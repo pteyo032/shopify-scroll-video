@@ -2,6 +2,8 @@
 
 # Shopify Scroll Video — Vidéo produit pilotée par le scroll, façon Apple
 
+[![Theme Check](https://github.com/pteyo032/shopify-scroll-video/actions/workflows/theme-check.yml/badge.svg)](https://github.com/pteyo032/shopify-scroll-video/actions/workflows/theme-check.yml)
+
 Une section pleine largeur qui épingle une vidéo produit à l'écran et fait
 avancer sa lecture image par image au rythme du scroll — pas de bouton
 play, aucun contrôle vidéo visible, juste la page qui réagit au scroll.

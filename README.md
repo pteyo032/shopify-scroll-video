@@ -2,6 +2,8 @@
 
 # Shopify Scroll Video — Apple-style scroll-scrubbed product video
 
+[![Theme Check](https://github.com/pteyo032/shopify-scroll-video/actions/workflows/theme-check.yml/badge.svg)](https://github.com/pteyo032/shopify-scroll-video/actions/workflows/theme-check.yml)
+
 A full-width section that pins a product video in place and scrubs its
 playback frame-by-frame as the visitor scrolls — no play button, no visible
 video controls, just the page reacting to scroll. Reversible: scroll back
