@@ -3,12 +3,18 @@
     "video_scroll": "Vidéo au scroll",
     "video_scroll_tooltip": "Infobulle"
   },
+  "categories": {
+    "storytelling": "Storytelling"
+  },
   "content": {
     "video": "Vidéo",
     "video_scroll_tooltip_limit": "Ajoute jusqu'à 3 blocks infobulle ci-dessous pour mettre en avant des caractéristiques du produit.",
     "mobile_images": "Images mobile",
     "position": "Position",
-    "timing": "Minutage"
+    "timing": "Minutage",
+    "text": "Texte",
+    "appearance": "Apparence",
+    "padding": "Marge intérieure"
   },
   "info": {
     "video_url": "Collez l'URL directe du fichier depuis Shopify Files (Settings > Files) — pas une vidéo ajoutée via le sélecteur vidéo, qui est ré-encodée",
@@ -31,6 +37,18 @@
     "start_time": "Temps de début",
     "end_time": "Temps de fin",
     "headline": "Titre",
-    "description": "Description"
+    "description": "Description",
+    "heading": "Titre",
+    "size": "Taille",
+    "text_color": "Couleur du texte",
+    "default": "Par défaut",
+    "background_color": "Couleur de fond",
+    "top": "Haut",
+    "bottom": "Bas"
+  },
+  "options": {
+    "right": "Droite",
+    "left": "Gauche",
+    "default": "Par défaut"
   }
 }

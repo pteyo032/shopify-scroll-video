@@ -3,12 +3,18 @@
     "video_scroll": "Video Scroll",
     "video_scroll_tooltip": "Tooltip"
   },
+  "categories": {
+    "storytelling": "Storytelling"
+  },
   "content": {
     "video": "Video",
     "video_scroll_tooltip_limit": "Add up to 3 tooltip blocks below to highlight product features.",
     "mobile_images": "Mobile images",
     "position": "Position",
-    "timing": "Timing"
+    "timing": "Timing",
+    "text": "Text",
+    "appearance": "Appearance",
+    "padding": "Padding"
   },
   "info": {
     "video_url": "Paste the direct file URL from Shopify Files (Settings > Files) — not a video uploaded through the video picker, which gets re-encoded",
@@ -31,6 +37,18 @@
     "start_time": "Start time",
     "end_time": "End time",
     "headline": "Headline",
-    "description": "Description"
+    "description": "Description",
+    "heading": "Heading",
+    "size": "Size",
+    "text_color": "Text color",
+    "default": "Default",
+    "background_color": "Background color",
+    "top": "Top",
+    "bottom": "Bottom"
+  },
+  "options": {
+    "right": "Right",
+    "left": "Left",
+    "default": "Default"
   }
 }
